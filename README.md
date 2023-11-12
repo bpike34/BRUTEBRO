@@ -1,38 +1,61 @@
-# BRUTEBRO - Python Brute Force Script
+# BRUTEBRO
 
-## Overview
-
-BRUTEBRO is a simple Python script designed for educational purposes to simulate a brute force attack on a login page. It is intended to be used responsibly and legally to understand the importance of robust security measures.
+BRUTEBRO is a Python script designed for simulating brute force attacks on login systems. It generates random usernames and passwords, attempts to log in using a specified URL, and records the results in a CSV file.
 
 ## Features
 
-- **Random Hacker Buddy Quotes**: BRUTEBRO provides a motivational quote from your friendly hacker buddy each time you run the script.
+- **Random Usernames and Passwords**: BRUTEBRO generates random usernames and passwords for each login attempt.
+- **Configurable Options**: Users can customize the number of attempts, password length, delay between attempts, and more.
+- **Visual Broadcast**: BRUTEBRO visually broadcasts each attempt, showing the username, password, and result on the console.
 
-- **User Interaction**: The script prompts the user to enter details such as the login URL, number of attempts, password length options, and delay between attempts.
+## Getting Started
 
-- **Countdown Timer**: Before initiating the brute force attack, BRUTEBRO displays a countdown timer to give the user a few seconds to prepare.
+1. **Clone the Repository**:
 
-- **Results Logging**: BRUTEBRO logs the results of the brute force attempts, including usernames, generated passwords, and whether the login was successful or failed.
+    ```bash
+    git clone https://github.com/bpike34/BRUTEBRO.git
+    ```
 
-## Requirements
+2. **Navigate to the BRUTEBRO Directory**:
 
-- Python 3.x
-- Requests library (install using `pip install requests`)
+    ```bash
+    cd BRUTEBRO
+    ```
 
-## Usage
+3. **Run BRUTEBRO**:
 
-1. Clone the repository:
+    ```bash
+    python BRUTEBRO.py
+    ```
 
-   ```bash
-   git clone https://github.com/bpike34/brutebro.git
-## Navigate to the project directory: 
-`cd brutebro`
-## Run the script: 
-`python3 brutebro.py`
-Follow the prompts to set up the brute force attack.
+4. **Follow the Prompts**:
 
+    - Enter the login URL.
+    - Specify the number of attempts.
+    - Choose password options (length, character types).
+    - Set the delay between attempts.
+
+## Options
+
+- **Password Character Types**:
+    - Letters only
+    - Numbers only
+    - Symbols only
+    - Letters, Numbers, and Symbols (default)
+
+- **Password Length Options**:
+    - Set a fixed password length
+    - Specify a length range
+
+- **Pre-made Usernames**:
+    - Users can provide a text file with pre-made usernames.
+
+## Example Usage
+
+```bash
+python BRUTEBRO.py
 Disclaimer
-This script is meant for educational purposes only. Do not use it for any malicious activities. Always respect the privacy and security of others.
+This script is intended for educational purposes only. Unauthorized access to computer systems is illegal.
 
 License
-This project is licensed under the MIT License.
+This project is licensed under the MIT License

